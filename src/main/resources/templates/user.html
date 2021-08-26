@@ -1,0 +1,142 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+   <style>
+.post{
+   max-width: 400px;
+   max-height: 400px;
+   display: block;
+   margin-right: 2%;
+}
+.card {
+   display:none;
+}
+ul{
+   text-decoration: none;
+}
+.userInfo{
+   text-align: left;
+}
+a{
+   color: #211e1e;
+}
+.photo{
+   margin-bottom: 5%;
+}
+   </style>
+   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+   <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous"/>
+   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+   <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+</head>
+<body>
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+   <div class="modal-dialog">
+      <div class="modal-content">
+         <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Followers</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+               <span aria-hidden="true">&times;</span>
+            </button>
+         </div>
+         <div class="modal-body">
+           <h2 th:each="follower : ${followers}" th:text="${follower.getUsername()}">
+
+           </h2>
+            <h2 th:if="${followers.size() == 0 && loggedInUser==user }">
+                  You have no followers, search for people to follow
+                  <a th:href="@{/users}">here</a>
+            </h2>
+
+            <h2 th:if="${followers.size() == 0}">
+                  The user has no followers
+            </h2>
+         </div>
+         <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+         </div>
+      </div>
+   </div>
+</div>
+
+<div class="container">
+   <div class="row">
+      <div class="col-md-4">
+         <div th:if="${user.getImageSrc()!= null}">
+         <img style="max-width:200px" th:src="*{'data:image/jpg;base64,' + {user.getImageSrc()} }">
+      </div>
+      <div th:if="${user.getImageSrc() == null && #request.getRequestURL().indexOf('profile')==-1}">
+         <img style="max-width:200px" src="../static/img/default_profile_picture.jpg" th:src="@{../img/default_profile_picture.jpg}">
+      </div>
+      <div th:if="${user.getImageSrc()== null && #request.getRequestURL().indexOf('profile')!=-1 }">
+         <img style="max-width:200px" src="../static/img/default_profile_picture.jpg" th:src="@{../../img/default_profile_picture.jpg}">
+      </div>
+   </div>
+
+   <div class="col-md-6 userInfo">
+      <h1 th:text="${user.getName()}"></h1>
+      <h1 th:text="${user.getSurname()}"></h1>
+   Username
+      <h1 th:text="${user.getUsername()}"></h1>
+   Posts
+      <h1 th:text="${photos.size()}"></h1>
+   Followers
+      <button data-toggle="modal" data-target="#exampleModal" type="button" class="btn" id="followers"><h1 th:text="${followers.size()}"></h1></button>
+
+   <th:block sec:authorize="hasRole('ROLE_PHOTOGRAPHER')">
+      <a th:href="@{'/calendar/{id}' (id=${user.getId()})}" th:if="${#request.getRemoteUser() != user.getUsername()}"><button class="btn btn-light">Book a photoshoot</button></a>
+   </th:block>
+
+   <th:block>
+         <a th:href="@{'/users/edit/{id}' (id=${user.getId()})}" th:if="${#request.getRemoteUser() == user.getUsername()}"><button class="btn btn-light">Edit profile</button></a>
+   </th:block>
+
+    <div>
+       <a th:href="@{'/calendar/booked/{id}' (id=${user.getId()})}" th:if="${#request.getRemoteUser() == user.getUsername()}">See your upcoming events</a>
+    </div>
+
+
+   </div>
+   </div>
+   </div>
+
+
+   <form th:method="POST" th:action="@{'/follow/{id}' (id=${user.getId()})}" th:if="${#request.getRemoteUser() != user.getUsername() && !followers.contains(loggedUser) }">
+      <button class="btn btn-primary" type="submit">Follow</button>
+   </form>
+
+   <form th:method="POST" th:action="@{'/follow/unflw/{id}' (id=${user.getId()})}" th:if="${#request.getRemoteUser() != user.getUsername() && followers.contains(loggedUser) }">
+      <button class="btn btn-primary" type="submit">Unfollow</button>
+   </form>
+   <div th:if="${user.getLinkedin() != ''}">
+      <a th:href="@{ ${user.getLinkedin()}}">Linkedin profile </a>
+   </div>
+   <div th:if="${user.getInstagram() != ''}">
+      <a th:href="@{ ${user.getInstagram()}}">Instagram profile </a>
+   </div>
+<div th:if="${user.getFacebook() != ''}">
+   <a th:href="@{ ${user.getFacebook()}}">Facebook profile </a>
+</div>
+   <hr>
+   <div class="container">
+   <div class="row photo">
+      <div class="col-md-3" th:each="photo : ${photos}">
+         <a th:href="@{'/photos/{id}' (id=${photo.getId()})}"><img class="post" th:src="*{'data:image/jpg;base64,' + {photo.getImageSrc()} }"></a>
+      </div>
+   </div>
+
+</div>
+</body>
+
+<script
+        src="https://code.jquery.com/jquery-2.2.4.js"
+        integrity="sha256-iT6Q9iMJYuQiMWNd9lDyBUStIq/8PuOW33aOqmvFpqI="
+        crossorigin="anonymous">
+</script>
+<script th:inline="javascript">
+
+</script>
+</html>

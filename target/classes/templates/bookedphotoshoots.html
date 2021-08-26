@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en"  xmlns:th="http://www.thymeleaf.org">
+<head>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous"/>
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <style>
+        ul {list-style-type: none;}
+        body {font-family: Verdana, sans-serif;}
+
+        /* Month header */
+        .month {
+            padding: 70px 25px;
+            width: 100%;
+            background: #1abc9c;
+            text-align: center;
+        }
+
+        /* Month list */
+        .month ul {
+            margin: 0;
+            padding: 0;
+        }
+
+        .month ul li {
+            color: white;
+            font-size: 20px;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+        }
+
+        /* Previous button inside month header */
+        .month .prev {
+            float: left;
+            padding-top: 10px;
+        }
+
+        /* Next button */
+        .month .next {
+            float: right;
+            padding-top: 10px;
+        }
+
+        /* Weekdays (Mon-Sun) */
+        .weekdays {
+            margin: 0;
+            padding: 10px 0;
+            background-color:#ddd;
+        }
+
+        .weekdays li {
+            display: inline-block;
+            width: 13.6%;
+            color: #666;
+            text-align: center;
+        }
+
+        /* Days (1-31) */
+        .days {
+            padding: 10px 0;
+            background: #eee;
+            margin: 0;
+        }
+
+        .days li {
+            list-style-type: none;
+            display: inline-block;
+            width: 13.6%;
+            text-align: center;
+            margin-bottom: 5px;
+            font-size:12px;
+            color: #777;
+        }
+
+        /* Highlight the "current" day */
+        .days li .active {
+            padding: 5px;
+            background: #1abc9c;
+            color: white !important
+        }
+
+       .card{
+            display: none;
+        }
+
+       .title{
+           background-color: #eeeeee;
+           text-align: center;
+           color: #666666;
+       }
+
+    </style>
+</head>
+<body>
+        <table>
+            <div class="title">
+                <h1>Upcoming photo shoots</h1>
+            </div>
+        </table>
+        <div class="month">
+            <ul>
+                <li id="previuos" class="prev">&#10094;</li>
+                <li id="next" class="next">&#10095;</li>
+                <li id="month"><br></li><span id="currentYear" style="font-size:18px"></span>
+            </ul>
+        </div>
+
+        <ul class="weekdays">
+            <li>Mo</li>
+            <li>Tu</li>
+            <li>We</li>
+            <li>Th</li>
+            <li>Fr</li>
+            <li>Sa</li>
+            <li>Su</li>
+        </ul>
+
+        <ul class="days" id="days">
+        </ul>
+
+        <!--Card NO EVENTS -->
+        <div id="empty" class="card" style="width: 18rem;">
+            <div class="card-body">
+                <h5 class="card-title">You have no events on this date</h5>
+            </div>
+        </div>
+
+
+        <!--Card EVENT -->
+        <div th:each="p: ${list}" th:classappend="(true ? ${p.getDate()} : ${p.getDate()}) + ' card' + ' events'"  style="width: 18rem;">
+            <div class="card-body">
+                <h5 class="card-title">Photoshoot</h5>
+                <p class="card-text">Date: </p>
+                <p class="card-text" th:text="${p.getDate()}"> </p>
+                <p class="card-text">Hour: </p>
+                <p class="card-text" th:text="${p.getHour()}"> </p>
+                <p class="card-text">Client: </p>
+                <a th:href="@{'/users/{id}' (id=${p.getUser().getId()})}"><p class="card-text" th:text="${p.getUser().getUsername()}"> </p></a>
+                <br/>
+                <a onclick="closeCard(this)" class="btn btn-light link">Close</a>
+            </div>
+        </div>
+
+</body>
+<script type="text/javascript" th:src="@{/js/calendar.js}">
+
+</script>
+</html>

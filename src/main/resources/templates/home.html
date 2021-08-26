@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Photography</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous"/>
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+    <style>
+        body{
+            background-color: #211e1e;
+        }
+        .carousel-inner{
+            height: 600px;
+        }
+        .carousel-inner img{
+            height: 600px;
+        }
+        #offer{
+            text-align: left;
+            font-family: Bahnschrift;
+            background-color: #211e1e;
+            color: #f7f7f7;
+            font-size: 32pt;
+            margin-left: 10%;
+        }
+        .card{
+            text-align: center;
+            width: 1000px;
+            margin-bottom: 10px;
+        }
+        .carousel-item h1{
+            font-family: "Bodoni MT";
+            z-index: 100;
+            color: #f7f7f7;
+        }
+        #carouselExampleInterval{
+            z-index: 0;
+        }
+        .carousel-caption{
+            text-align: right;
+            padding-bottom: 500px;
+        }
+        .cards{
+            background-color: #211e1e;
+        }
+        .cards .row{
+            margin-left: 500px;
+        }
+    </style>
+</head>
+
+<body>
+<div id="carouselExampleInterval" class="carousel slide" data-ride="carousel">
+    <div class="carousel-inner">
+        <div class="carousel-item active" data-interval="10000">
+            <img width="500" src="../static/img/carousel.jpg" th:src="@{img/carousel.jpg}" class="d-block w-100" alt="...">
+            <div class="carousel-caption d-none d-md-block">
+                <h1>A website to showcase your creative work and find customers</h1>
+            </div>
+        </div>
+        <div class="carousel-item" data-interval="2000">
+            <img width="500" src="../static/img/love.jpg" th:src="@{img/love.jpg}" class="d-block w-100" alt="...">
+            <div class="carousel-caption d-none d-md-block">
+                <h1>Broaden your network fast</h1>
+            </div>
+        </div>
+            <div class="carousel-item" data-interval="10000">
+                <img width="500" src="../static/img/photography.jpg" th:src="@{img/photography.jpg}" class="d-block w-100" alt="...">
+                <div class="carousel-caption d-none d-md-block">
+                    <h1>Enjoy while making money</h1>
+                </div>
+            </div>
+    </div>
+    <a class="carousel-control-prev" href="#carouselExampleInterval" role="button" data-slide="prev">
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="sr-only">Previous</span>
+    </a>
+    <a class="carousel-control-next" href="#carouselExampleInterval" role="button" data-slide="next">
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="sr-only">Next</span>
+    </a>
+</div>
+<h1 id="offer">What we offer</h1>
+<div class="cards">
+    <div class="row">
+        <div class="col-md-6 card" style="width: 80rem;">
+            <div class=" card-body">
+                <h5 class="card-title">The best photographers in the country.</h5>
+                <h6 class="card-subtitle mb-2 text-muted">Here you can browse photos from our users and decide which one is the best for you.</h6>
+                <p class="card-text">No matter the occasion, we have different types of photoshoots.</p>
+                <a th:href="@{/users}" class="card-link">See our user profiles</a>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="card col-md-6" style="width: 80rem;">
+            <div class="card-body">
+                <h5 class="card-title">Just 2 clicks to register</h5>
+                <h6 class="card-subtitle mb-2 text-muted">We just need your name, surname, and a username</h6>
+                <p class="card-text">This information is used to identify you in our application.</p>
+
+                <a th:href="@{/register}" class="card-link">Register</a>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="card col-md-6" style="width: 80rem;">
+            <div class="card-body">
+                <h5 class="card-title">Completely free</h5>
+                <h6 class="card-subtitle mb-2 text-muted">Become a photographer fast</h6>
+                <p class="card-text">In the registration form, you can choose if ypu want to be a photographer or just looking for a booking.
+                    This can be changed at any moment.  Post, like, comment, share in order to find custimers :)</p>
+                <a href="#" class="card-link">Become a member now</a>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+</body>
+</html>

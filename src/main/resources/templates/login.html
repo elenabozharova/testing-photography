@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Login</title>
+    <head>
+        <meta charset="UTF-8"/>
+        <title>Photography</title>
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+        <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+        <script src="/webjars/bootstrap/3.3.7-1/js/bootstrap.min.js"></script>
+        <script src="/webjars/bootstrap/js/bootstrap.min.js"></script>
+    </head>
+    <style>
+        body{
+            background-color: #211e1e;
+            color: #f7f7f7;
+        }
+        .error{
+            color: darkred;
+        }
+        .login{
+            position: relative;
+            padding-top: 300px;
+            padding-right: 50px;
+            padding-left: 50px;
+        }
+        img{
+            height: 100%;
+            width:100%;
+            padding: 0;
+        }
+        button{
+            margin-top: 3%;
+            margin-left: 40%;
+        }
+        #username{
+            margin-bottom: 3%;
+        }
+    </style>
+</head>
+<body>
+<div>
+    <div class="row">
+            <div class="col-sm-8 col-md-8">
+                <img src="../static/img/photography.jpg" th:src="@{img/photography.jpg}">
+            </div>
+            <div class="col-sm-4 col-md-4 login">
+                <h2>Log in</h2>
+                <form th:method="POST" th:action="@{/login}">
+                    <input id="username" type="text" name="username" class="form-control credentials" placeholder="Username">
+                    <input id="pass" type="password" name="password" class="form-control credentials" placeholder="Password">
+                    <button class="btn btn-light" type="submit">Log in</button>
+                </form>
+                <form th:action="@{/signin/facebook}" th:method="POST">
+                    <input type="hidden" name="scope" value="public_profile" />
+                    <input type="submit" value="Login using Facebook"/>
+                </form>
+                <div>
+                    <div class="error" th:text="${param.error}"></div>
+                    <p>Haven't registered?</p>
+                    <a href="/register" class="btn btn-light">Register here</a>
+                </div>
+            </div>
+    </div>
+</div>
+</body>
+<script>
+
+</script>
+</html>

@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Photograph me</title>
+    <style>
+        .user{
+            border: 2px solid black;
+        }
+        .profile{
+            width: 100px;
+            height: 100px;
+        }
+        h1{
+            font-family: "Bodoni MT";
+        }
+
+    </style>
+</head>
+<body>
+<div class="container">
+    <table class="table table-responsive">
+        <thead><h1>Find a photographer for your photo shoot ideas</h1></thead>
+        <tr th:each="user : ${users}">
+            <td>
+                <img class="profile" th:src="*{'data:image/jpeg;base64,' + {user.getImageSrc()} }" th:if="${user.getImageSrc()}">
+                <img class="profile" src="../static/img/default_profile_picture.jpg" th:src="@{'img/default_profile_picture.jpg'}" th:if="!${user.getImageSrc()}">
+            </td>
+            <td>
+                <a th:href="@{'/users/{id}' (id=${user.getId()})}"><p th:text="${user.username}"></p></a>
+            </td>
+        </tr>
+    </table>
+</div>
+
+</body>
+</html>

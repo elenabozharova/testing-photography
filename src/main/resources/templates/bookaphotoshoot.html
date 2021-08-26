@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+<style>
+
+</style>
+</head>
+<link rel="stylesheet" type="text/css" href="https://uicdn.toast.com/tui-calendar/latest/tui-calendar.css" />
+
+<!-- If you use the default popups, use this. -->
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<link rel="stylesheet" type="text/css" href="https://uicdn.toast.com/tui.date-picker/latest/tui-date-picker.css" />
+<link rel="stylesheet" type="text/css" href="https://uicdn.toast.com/tui.time-picker/latest/tui-time-picker.css" />
+<script src="https://uicdn.toast.com/tui.code-snippet/v1.5.2/tui-code-snippet.min.js"></script>
+<script src="https://uicdn.toast.com/tui.time-picker/latest/tui-time-picker.min.js"></script>
+<script src="https://uicdn.toast.com/tui.date-picker/latest/tui-date-picker.min.js"></script>
+<script src="https://uicdn.toast.com/tui-calendar/latest/tui-calendar.js"></script>
+<div>
+<h2>Choose a date for your photo shoot with the photographer</h2>
+    <div class="container">
+        <form th:method="POST" th:action="@{'/calendar/book/{id}' (id = ${photographer.getId()})}" th:if="${user != photographer}">
+            <div class="tui-datepicker-input tui-datetime-input tui-has-focus">
+                <input type="text" id="tui-date-picker-target" aria-label="Date-Time" name="date">
+                <span class="tui-ico-date"></span>
+            </div>
+
+            <div id="tui-date-picker-container" style="margin-top: -1px;"></div>
+
+            <table>
+                <tbody>
+                <tr>
+                    <td><div id="timepicker-selectbox"></div></td>
+                </tr>
+                </tbody>
+                <input name="partOfDay" id="part" hidden>
+                <input name="time" id="time" hidden>
+            </table>
+
+            <button id="submit" type="submit" class="btn btn-light">Book a photo shoot</button>
+        </form>
+    </div>
+</div>
+</body>
+<script th:inline="javascript">
+    var DatePicker = tui.DatePicker;
+    var container = document.getElementById('tui-date-picker-container');
+    var target = document.getElementById('tui-date-picker-target');
+
+
+    var instance = new DatePicker(container, {
+        input: {
+            element: target
+        }
+    });
+
+    instance.getDate();
+
+    var tpSelectbox = new tui.TimePicker('#timepicker-selectbox', {
+        initialHour: 12,
+        initialMinute: 0,
+        disabledHours: [1, 2, 14],
+        inputType: 'selectbox'
+    });
+
+    document.getElementById("submit").addEventListener('click', function(){
+        var time = document.getElementById("time");
+        time.value = tpSelectbox.getHour() + ' ' + tpSelectbox.getMinute();
+        console.log(time.value);
+
+        var partOfDay = document.getElementById("part");
+        partOfDay.value = document.querySelector('[aria-label="AM/PM"]').selectedOptions[0].value;
+        console.log(value.innerText);
+    });
+
+</script>
+</html>

@@ -1,0 +1,145 @@
+<!DOCTYPE html >
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Book a photo shoot</title>
+</head>
+<style>
+    .row {
+        width: 50%;
+        margin-left: 30%;
+    }
+    .row .postedBy{
+        border: #211e1e;
+        position: relative;
+        width: 60%;
+    }
+    .postedBy img{
+        height: 50px;
+        width: 50px;
+        position: relative;
+        text-align: left;
+    }
+    .postedBy h4{
+        position: relative;
+        float:right;
+    }
+    .postedBy{
+        box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    }
+    a{
+        color: #211e1e;
+    }
+    img{
+        box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 #3d3d3d;
+    }
+    .image{
+        margin-bottom: 5%;
+    }
+    .date{
+        text-align: left;
+    }
+    .infoBox{
+        margin-left: 30%;
+        width: 30%;
+        box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 #3d3d3d;
+    }
+    .infoBox .row{
+        width: 100%;
+        margin-left: 0%;
+    }
+    .liked{
+        margin-left: 30%;
+        width: 30%;
+        border-bottom: 1px solid moccasin;
+        font-family: Bahnschrift;
+    }
+    .liked h4, h4{
+        font-size: 20px;
+        font-family: Bahnschrift;
+    }
+    .description{
+        box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 #3d3d3d;
+        width: 60%;
+    }
+    #commentBtn{
+        position: absolute;
+        float: right;
+        top: 0%;
+        bottom: 10%;
+    }
+    form{
+        max-width: 40%;
+    }
+    .commentDiv{
+        width:70%;
+        position: relative;
+    }
+    .form-control{
+        width: 100%;
+        float: left;
+    }
+
+</style>
+<div class="container">
+    <div class="image">
+        <div class="row">
+            <div class="postedBy">
+                <img style="max-width: 100px; max-height: 100px" th:src="*{'data:image/jpeg;base64,' + {image.getUser().getImageSrc()} }" th:if="${image.getUser().getImageSrc()}">
+                <img style="max-width: 100px" src="../static/img/default_profile_picture.jpg" th:src="@{'../img/default_profile_picture.jpg'}" th:if="!${image.getUser().getImageSrc()}">                <h4 th:text="${image.getUser().getUsername()}"></h4>
+                <a th:href="@{'/photos/edit/{id}' (id=${image.getId()})}" th:if="${loggedInUser == image.getUser()}">Edit<i class="fas fa-camera-alt"></i></a>
+            </div>
+        </div>
+        <div class="row">
+            <img style="max-width: 500px; max-height: 500px" th:src="*{'data:image/jpeg;base64,' + {image.getImageSrc()} }">
+        </div>
+<div class="infoBox">
+    <div class="row description">
+        <h4 th:text="${image.getDescription()}"></h4>
+    </div>
+    <div class="date row">
+        <h3 th:text="${image.getDate()}"></h3>
+    </div>
+    <div class="liked row">
+        <h4>Liked by &nbsp </h4>
+        <a data-toggle="modal" th:data-target="'#exampleModal1'" type="button" class="btn">
+            <h4 th:text="${image.getLikes().size()}"></h4> </a>
+        <h4>people</h4>
+    </div>
+    <h4 th:if="${comments.size() != 0}">Comments</h4>
+    <th:block th:each="comment : ${comments}">
+        <div class="row">
+            <h3 th:if="${comment.image.getId()} == ${image.getId()}" th:text="${comment.getUser().getUsername()}"></h3>
+            <hr>
+        </div>
+
+        <div class="row">
+            <h5 th:if="${comment.image.getId()} == ${image.getId()}" th:text="${comment.getText()}"></h5>
+        </div>
+    </th:block>
+</div>
+<div class="row">
+    <form th:method="POST" th:action="@{'/photos/like/{id}' (id=${image.getId()})} " th:if="!${image.getLikes().contains(loggedInUser)}">
+        <button class="like" type="submit"><i class="far fa-heart" ></i></button>
+        <input type="text" th:value="${loggedInUser.getId()}" name="userId" hidden>
+    </form>
+
+    <form th:method="POST" th:action="@{'/photos/unlike/{id}' (id=${image.getId()})} " th:if="${image.getLikes().contains(loggedInUser)}">
+        <button class="btn btn-light liked" type="submit"><i class="fas fa-heart"></i></button>
+        <input type="text" th:value="${loggedInUser.getId()}" name="userId" hidden>
+    </form>
+
+    <div class="commentDiv">
+        <form th:method="POST" th:action="@{ '/comment/{id}' (id=${image.getId()})}">
+            <input class="form-control" type = "text" required id="comment" name="comment">
+            <button class="btn" type="submit" id="commentBtn"><i class="fas fa-pencil">Comment</i></button>
+            <input type="text" th:value="${loggedInUser.getId()}" name="userId" hidden>
+        </form>
+
+    </div>
+
+</div>
+</div>
+</div>
+</body>
+</html>

@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Edit Profile</title>
+    <style>
+        #upload{
+            display: none;
+        }
+    </style>
+
+</head>
+<body>
+<div class="container">
+    <div class="row">
+        <div class="col">
+            <div id="profilePictureDiv" th:if="${user.getImageSrc()!=null}">
+                <img style="max-width: 500px; max-height: 500px" th:src="*{'data:image/jpg;base64,' + {user.getImageSrc()} }">
+                <button class="btn btn-dark upload" th:onclick="showUploadDiv()">Change Profile Picture</button>
+            </div>
+            <div id="firstProfilePicture" th:if="${user.getImageSrc()==null}">
+                <button class="btn btn-dark upload" >Upload a profile picture</button>
+            </div>
+        </div>
+
+    </div>
+    <div>
+    <form th:method="POST" th:action="@{'/users/edit/{id}' (id=${user.getId()})}" enctype="multipart/form-data">
+    <p>
+        <label for="username" class="sr-only">Username</label>
+        <input type="text"
+           id="username"
+           name="username"
+           class="form-control"
+           placeholder="Username"
+           required=true
+           th:value="${user.getUsername()}"
+           autofocus="">
+    </p>
+    <p>
+        <label for="name" class="sr-only">Name</label>
+        <input type="text"
+           id="name"
+           name="name"
+           class="form-control"
+           placeholder="Name"
+           required=true
+           th:value="${user.getName()}"
+           autofocus="">
+    </p>
+    <p>
+        <label for="surname" class="sr-only">Surname</label>
+        <input type="text"
+           id="surname"
+           name="surname"
+           class="form-control"
+           placeholder="Surname"
+           required=true
+           th:value="${user.getSurname()}"
+           autofocus="">
+    </p>
+    <p>
+        <div class="form-check form-check-inline">
+        <input class="form-check-input"
+           name="role"
+           type="radio"
+           id="ROLE_USER"
+           checked="${user.getRole() == 'ROLE_USER'}"
+           value="ROLE_USER">
+        <label class="form-check-label" for="ROLE_USER">ROLE_USER</label>
+        </div>
+        <div class="form-check form-check-inline">
+        <input class="form-check-input"
+           name="role"
+           type="radio"
+           id="ROLE_PHOTOGRAPHER"
+           value="ROLE_PHOTOGRAPHER"
+           checked="${user.getRole() == 'ROLE_PHOTOGRAPHER'}">
+        <label class="form-check-label" for="ROLE_PHOTOGRAPHER">ROLE_PHOTOGRAPHER</label>
+        </div>
+    </p>
+
+    <div id="upload">
+        <input type="file" name="profilePicture" multiple>
+    </div>
+
+    <button class="btn btn-primary" type="submit">SAVE</button>
+    </form>
+    </div>
+</div>
+<script th:inline="javascript">
+    var buttons = document.getElementsByClassName('upload');
+    console.log(buttons);
+    console.log(buttons.length)
+    for(var button of buttons){
+        button.addEventListener('click', function(){
+           showUploadDiv();
+        });
+    }
+
+    function showUploadDiv(){
+        var button = document.getElementById('upload');
+        button.style.display = 'block';
+    }
+</script>
+
+</body>
+</html>
