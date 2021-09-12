@@ -58,7 +58,7 @@ public class UserServiceImpl implements UserService {
         {
             user = this.repository.findByUsername(username).orElseThrow();
         }
-        else{
+        else {
             user = null;
         }
         return user;

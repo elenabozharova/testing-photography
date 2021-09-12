@@ -29,6 +29,7 @@ public class ImageServiceImpl implements ImageService {
 
     @Override
     public Image save(Image image) {
+
         return this.repository.save(image);
     }
 
