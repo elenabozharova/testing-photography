@@ -937,6 +937,7 @@ false Zulu
     </table>
     <table id="32" parent="17" name="follow">
       <ObjectId>20474</ObjectId>
+      <Outdated>1</Outdated>
       <Owner>postgres</Owner>
       <StateNumber>2741</StateNumber>
     </table>
@@ -948,6 +949,7 @@ false Zulu
     </table>
     <table id="34" parent="17" name="likes">
       <ObjectId>20487</ObjectId>
+      <Outdated>1</Outdated>
       <Owner>postgres</Owner>
       <StateNumber>2744</StateNumber>
     </table>

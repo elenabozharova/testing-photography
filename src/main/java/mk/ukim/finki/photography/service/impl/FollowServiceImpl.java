@@ -31,6 +31,7 @@ public class FollowServiceImpl implements FollowService {
         follow = new Follow(loggedInUser, userToFollow);
         return this.repository.save(follow);
     }
+
     @Transactional
     @Override
     public void unfollow(Long followerId, Long userFollowId) {
@@ -54,12 +55,13 @@ public class FollowServiceImpl implements FollowService {
     }
 
     @Override
+    @Transactional
     public List<User> getFollowingList(Long id) {
         User user = this.userRepository.findById(id).orElseThrow();
         List<Follow> followersData = this.repository.findAllByFollower(user);
         List<User> following = new LinkedList<>();
         for (Follow follower : followersData){
-            following.add(follower.getFollower());
+            following.add(follower.getFollowed());
         }
         return following;
     }

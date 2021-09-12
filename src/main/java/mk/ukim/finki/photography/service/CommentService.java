@@ -7,4 +7,5 @@ import java.util.List;
 public interface CommentService {
     List<Comment> showAll();
     Comment addComment(String comment, Long userId, Long imageId);
+    Comment findTopByOrderByIdDesc();
 }

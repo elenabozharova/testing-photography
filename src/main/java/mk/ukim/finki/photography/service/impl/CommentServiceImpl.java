@@ -9,6 +9,7 @@ import mk.ukim.finki.photography.repository.UserRepository;
 import mk.ukim.finki.photography.service.CommentService;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.List;
 
 @Service
@@ -36,5 +37,11 @@ public class CommentServiceImpl implements CommentService {
         Image image = this.imageRepository.findById(imageId).orElseThrow();
         Comment tmp = new Comment(comment, user, image);
         return this.repository.save(tmp);
+    }
+
+    @Override
+    @Transactional
+    public Comment findTopByOrderByIdDesc() {
+        return this.repository.findTopByOrderByIdDesc();
     }
 }

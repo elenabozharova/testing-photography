@@ -25,6 +25,7 @@ public class PhotoshootServiceImpl implements PhotoshootService {
 
     @Override
     public Photoshoot save(Photoshoot photoshoot) {
+
         return this.repository.save(photoshoot);
     }
 

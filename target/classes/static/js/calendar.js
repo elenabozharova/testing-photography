@@ -9,6 +9,7 @@ function toggleDisplay(card,display){
 
 // the card shown when clicking a date
 function setDate(button, date){
+    debugger;
     button.addEventListener('click', function(){
         var cards = document.getElementsByClassName(date);
         var noEvents = document.getElementById('empty');
@@ -46,10 +47,11 @@ const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 
 
 
 var year= 2021;
-var month = 2; //starts counting from 0
+var month = 8; //starts counting from 0
 var day = 1;
 
 var getDaysInMonth = function(month,year) {
+    debugger;
     // Here January is 1 based
     //Day 0 is the last day in the previous month
     return new Date(year, month, 0).getDate();
@@ -59,7 +61,7 @@ var getDaysInMonth = function(month,year) {
 
 
 
-//THE CALENDAR
+// THE CALENDAR
 var calendarDiv = document.getElementById("days");
 var today = new Date();
 
@@ -68,6 +70,7 @@ var today = new Date();
  * */
 
 function populateList(daysCurrentMonth){
+    debugger;
     for(i=0;i<daysCurrentMonth;i++){
         if(i<10 && date.getMonth()<10 ){
             var stringDate = date.getFullYear() + '-' + 0 +  (date.getMonth()+1)  + '-' + '0' + (i+1).toString();
@@ -82,6 +85,7 @@ function populateList(daysCurrentMonth){
         else{
             var stringDate = date.getFullYear() + '-' + (date.getMonth()+1)   + '-' + (i+1).toString();
         }
+
         var link = document.createElement("a");
 
         setDate(link,stringDate);
@@ -89,7 +93,8 @@ function populateList(daysCurrentMonth){
         var item = document.createElement("li");
         // item.classList.add('class'+(date.getMonth()+1).toString());
         item.classList.add('date');
-        if(i==today.getDay()-1 && today.getMonth()==date.getMonth()){
+
+        if(i==today.getDate()-1 && today.getMonth()==date.getMonth()){
             item.style.background = '#1abc9c';
             item.style.color = 'whitesmoke';
             item.style.padding = '5px';
@@ -111,6 +116,7 @@ function populateList(daysCurrentMonth){
 
 
 function populateCalendar(month, year, day, today){
+    debugger;
     today = new Date();
     date = new Date(year, month, day, 0 , 0, 0, 0) // the current month
 

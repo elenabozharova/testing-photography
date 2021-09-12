@@ -13,6 +13,7 @@ import java.util.List;
 
 
 public interface ImageService {
+
     Image save(Image image);
     void saveImagetoDB(HttpServletRequest request, MultipartFile file, String name, String des, LocalDate date) throws IOException;
     List<Image> list();
