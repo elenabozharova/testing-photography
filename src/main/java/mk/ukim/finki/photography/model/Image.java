@@ -25,7 +25,7 @@ public class Image implements Comparable<Image>{
 
     private LocalDate date;
 
-    @ManyToOne()
+    @ManyToOne(cascade = {CascadeType.ALL})
     @JoinColumn(name="photography_users_id")
     private User user;
 

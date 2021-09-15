@@ -90,8 +90,7 @@ public class UserServiceImpl implements UserService {
     public void saveUserToDatabase(HttpServletRequest request,  Long id, String name, String surname, MultipartFile file, Role role, String username)  throws IOException {
         String fileName = file.getOriginalFilename();
         String encodedImage = Base64.getEncoder().encodeToString(file.getBytes());
-        String authorUsername = request.getRemoteUser().toString();
-        User user = this.repository.findByUsername(authorUsername).orElseThrow(() -> new UsernameNotFoundException(authorUsername));
+        User user = this.repository.findByUsername(username).orElseThrow(() -> new UsernameNotFoundException(username));
         user.setName(name);
         user.setSurname(surname);
         user.setUsername(username);
